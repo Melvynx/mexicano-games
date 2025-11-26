@@ -4,6 +4,7 @@ import type { Round } from '../../utils/constants';
 import { TOTAL_ROUNDS } from '../../utils/constants';
 import { getLeaderboard } from '../../utils/mexicano';
 import { ScoreModal } from './ScoreModal';
+import useLocalStorage from '../../hooks/useLocalStorage';
 
 interface TournamentProps {
   players: string[];
@@ -28,8 +29,8 @@ export const Tournament: React.FC<TournamentProps> = ({
 }) => {
   const [activeMatch, setActiveMatch] = useState<{ roundIndex: number, matchIndex: number, team: 'team1' | 'team2' } | null>(null);
   const [isLeaderboardOpen, setIsLeaderboardOpen] = useState(false);
-  const [timerSeconds, setTimerSeconds] = useState(DEFAULT_TIMER_SECONDS);
-  const [isTimerRunning, setIsTimerRunning] = useState(false);
+  const [timerSeconds, setTimerSeconds] = useLocalStorage<number>('tournament_timer_seconds', DEFAULT_TIMER_SECONDS);
+  const [isTimerRunning, setIsTimerRunning] = useLocalStorage<boolean>('tournament_timer_running', false);
 
   const currentRoundIndex = rounds.length - 1;
   const currentRound = rounds[currentRoundIndex];
