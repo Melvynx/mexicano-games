@@ -9,6 +9,17 @@ interface PlayerSetupProps {
   onAbout: () => void;
 }
 
+const cityNameRegex = /^[\p{L}]+$/u;
+
+const generateSingleWordCity = () => {
+  let city = '';
+  // Retry until faker returns a single-word city (avoids spaces or symbols).
+  while (!city || !cityNameRegex.test(city)) {
+    city = faker.location.city();
+  }
+  return city;
+};
+
 export const PlayerSetup: React.FC<PlayerSetupProps> = ({ players, onAddPlayer, onStart, onAbout }) => {
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
@@ -16,7 +27,7 @@ export const PlayerSetup: React.FC<PlayerSetupProps> = ({ players, onAddPlayer, 
   const handleRandomNames = () => {
     players.forEach((name, index) => {
       if (!name.trim()) {
-        onAddPlayer(index, faker.location.city());
+        onAddPlayer(index, generateSingleWordCity());
       }
     });
   };
