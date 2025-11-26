@@ -1,4 +1,4 @@
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronDown, ChevronUp, Pause, Play } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import type { Round } from '../../utils/constants';
 import { TOTAL_ROUNDS } from '../../utils/constants';
@@ -107,7 +107,11 @@ export const Tournament: React.FC<TournamentProps> = ({
               className="h-12 w-12 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center border border-slate-200 hover:bg-slate-200 transition-all active:scale-95"
               aria-label={isTimerRunning ? 'Mettre le timer en pause' : 'Lancer le timer'}
             >
-              <span className="text-xl">{isTimerRunning ? '⏸️' : '▶️'}</span>
+              {isTimerRunning ? (
+                <Pause className="w-5 h-5" aria-hidden="true" />
+              ) : (
+                <Play className="w-5 h-5 translate-x-[1px]" aria-hidden="true" />
+              )}
             </button>
           </div>
           <div className="flex gap-2 justify-end">
