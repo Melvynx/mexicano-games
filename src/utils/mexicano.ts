@@ -6,6 +6,8 @@ type PlayerScore = {
   matchesPlayed: number;
   gamesWon: number;
   gamesLost: number;
+  matchWins: number;
+  matchLosses: number;
 };
 
 export const getPlayerScores = (players: string[], rounds: Round[]): PlayerScore[] => {
@@ -15,11 +17,16 @@ export const getPlayerScores = (players: string[], rounds: Round[]): PlayerScore
     matchesPlayed: 0,
     gamesWon: 0,
     gamesLost: 0,
+    matchWins: 0,
+    matchLosses: 0,
   }));
 
   rounds.forEach(round => {
     round.matches.forEach(match => {
       if (match.score) {
+        const team1Won = match.score.team1 > match.score.team2;
+        const team2Won = match.score.team2 > match.score.team1;
+
         // Team 1 stats
         match.team1.forEach(playerIndex => {
           scores[playerIndex].matchesPlayed++;
@@ -27,6 +34,11 @@ export const getPlayerScores = (players: string[], rounds: Round[]): PlayerScore
           scores[playerIndex].gamesLost += match.score!.team2;
           // Points = games won
           scores[playerIndex].points += match.score!.team1;
+          if (team1Won) {
+            scores[playerIndex].matchWins += 1;
+          } else if (team2Won) {
+            scores[playerIndex].matchLosses += 1;
+          }
         });
 
         // Team 2 stats
@@ -36,6 +48,11 @@ export const getPlayerScores = (players: string[], rounds: Round[]): PlayerScore
           scores[playerIndex].gamesLost += match.score!.team1;
           // Points = games won
           scores[playerIndex].points += match.score!.team2;
+          if (team2Won) {
+            scores[playerIndex].matchWins += 1;
+          } else if (team1Won) {
+            scores[playerIndex].matchLosses += 1;
+          }
         });
       }
     });
@@ -50,7 +67,13 @@ export const getLeaderboard = (players: string[], rounds: Round[]) => {
     .map(s => ({ ...s, name: players[s.index] }))
     .sort((a, b) => {
       if (b.points !== a.points) return b.points - a.points;
-      // Tie-breaker: point difference (games won - games lost)
+      // First tie-breaker: match victories vs defeats
+      const balanceA = a.matchWins - a.matchLosses;
+      const balanceB = b.matchWins - b.matchLosses;
+      if (balanceB !== balanceA) return balanceB - balanceA;
+      // Next tie-breaker: total match wins
+      if (b.matchWins !== a.matchWins) return b.matchWins - a.matchWins;
+      // Final tie-breaker: game differential
       const diffA = a.gamesWon - a.gamesLost;
       const diffB = b.gamesWon - b.gamesLost;
       return diffB - diffA;

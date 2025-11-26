@@ -216,9 +216,19 @@ export const Tournament: React.FC<TournamentProps> = ({
                         }`}>
                           {idx + 1}
                         </span>
-                        <span className="font-medium text-slate-700">{player.name}</span>
+                        <div>
+                          <p className="font-semibold text-slate-700">{player.name}</p>
+                          <p className="text-[11px] uppercase tracking-wide text-slate-400 font-semibold">
+                            <span className="text-emerald-600">V {player.matchWins}</span>
+                            <span className="mx-1 text-slate-400">/</span>
+                            <span className="text-rose-500">D {player.matchLosses}</span>
+                          </p>
+                        </div>
                       </div>
-                      <span className="font-bold text-orange-600">{player.points} pts</span>
+                      <div className="text-right">
+                        <span className="font-bold text-orange-600 text-lg">{player.points}</span>
+                        <span className="text-xs text-slate-400 block -mt-0.5">pts</span>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -228,11 +238,16 @@ export const Tournament: React.FC<TournamentProps> = ({
             {!isLeaderboardOpen && (
                <div className="px-5 py-3 bg-orange-50/50 flex flex-wrap gap-2">
                  {leaderboard.slice(0, 4).map((player, idx) => (
-                   <span key={player.index} className="text-sm text-slate-600 font-medium flex items-center gap-1">
-                     <span className="text-orange-500 font-bold">#{idx + 1}</span> {player.name}
+                   <span key={player.index} className="text-sm text-slate-600 font-medium flex flex-col leading-tight">
+                     <span className="flex items-center gap-1">
+                       <span className="text-orange-500 font-bold">#{idx + 1}</span> {player.name}
+                     </span>
+                     <span className="text-xs text-slate-400">
+                       {player.points} pts • V {player.matchWins} / D {player.matchLosses}
+                     </span>
                    </span>
                  ))}
-                 <span className="text-sm text-slate-400">...</span>
+                 <span className="text-sm text-slate-400 self-center">...</span>
                </div>
             )}
           </div>

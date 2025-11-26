@@ -41,7 +41,7 @@ export const Leaderboard: React.FC<LeaderboardProps> = ({ players, rounds, onBac
                 <span className="text-3xl">🥈</span>
               </div>
               <p className="font-bold text-slate-700 text-sm text-center truncate w-full px-2">{leaderboard[1].name}</p>
-              <p className="text-slate-500 text-xs font-medium mb-1">{leaderboard[1].points} pts</p>
+              <p className="text-slate-500 text-xs font-medium mb-1">{leaderboard[1].points} pts • V {leaderboard[1].matchWins} / D {leaderboard[1].matchLosses}</p>
               <div className="w-full h-24 bg-gradient-to-t from-slate-300 to-slate-200 rounded-t-2xl opacity-80" />
             </div>
           )}
@@ -52,7 +52,7 @@ export const Leaderboard: React.FC<LeaderboardProps> = ({ players, rounds, onBac
                 <span className="text-4xl">🏆</span>
               </div>
               <p className="font-bold text-slate-800 text-center truncate w-full px-2">{leaderboard[0].name}</p>
-              <p className="text-amber-600 font-bold mb-1">{leaderboard[0].points} pts</p>
+              <p className="text-amber-600 font-bold mb-1">{leaderboard[0].points} pts • V {leaderboard[0].matchWins} / D {leaderboard[0].matchLosses}</p>
               <div className="w-full h-32 bg-gradient-to-t from-amber-400 to-amber-300 rounded-t-2xl shadow-lg shadow-amber-100" />
             </div>
           )}
@@ -63,7 +63,7 @@ export const Leaderboard: React.FC<LeaderboardProps> = ({ players, rounds, onBac
                 <span className="text-3xl">🥉</span>
               </div>
               <p className="font-bold text-slate-700 text-sm text-center truncate w-full px-2">{leaderboard[2].name}</p>
-              <p className="text-slate-500 text-xs font-medium mb-1">{leaderboard[2].points} pts</p>
+              <p className="text-slate-500 text-xs font-medium mb-1">{leaderboard[2].points} pts • V {leaderboard[2].matchWins} / D {leaderboard[2].matchLosses}</p>
               <div className="w-full h-16 bg-gradient-to-t from-orange-300 to-orange-200 rounded-t-2xl opacity-80" />
             </div>
           )}
@@ -87,9 +87,16 @@ export const Leaderboard: React.FC<LeaderboardProps> = ({ players, rounds, onBac
                 {index + 1}
               </span>
               <div className="flex-1 min-w-0">
-                <div className="flex justify-between items-baseline mb-1">
-                  <p className="font-bold text-slate-800 truncate">{player.name}</p>
-                  <p className="text-xs text-slate-400">{player.matchesPlayed} matchs</p>
+                <div className="flex justify-between items-start mb-1 gap-3">
+                  <div className="min-w-0">
+                    <p className="font-bold text-slate-800 truncate">{player.name}</p>
+                    <p className="text-[11px] uppercase tracking-wide text-slate-400 font-semibold">
+                      <span className="text-emerald-600">V {player.matchWins}</span>
+                      <span className="mx-1 text-slate-400">/</span>
+                      <span className="text-rose-500">D {player.matchLosses}</span>
+                    </p>
+                  </div>
+                  <p className="text-xs text-slate-400 whitespace-nowrap">{player.matchesPlayed} matchs</p>
                 </div>
                 <div className="h-2.5 bg-slate-100 rounded-full overflow-hidden">
                   <div
@@ -98,7 +105,7 @@ export const Leaderboard: React.FC<LeaderboardProps> = ({ players, rounds, onBac
                   />
                 </div>
               </div>
-              <div className="text-right min-w-[3rem]">
+              <div className="text-right min-w-[3.5rem]">
                 <span className="text-xl font-bold text-orange-600">{player.points}</span>
                 <span className="text-xs text-slate-400 block -mt-1">pts</span>
               </div>
