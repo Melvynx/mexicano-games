@@ -52,7 +52,9 @@ export const About: React.FC<AboutProps> = ({ onBack }) => {
                 Règles du Jeu
               </h2>
               <ul className="space-y-2 text-slate-600 ml-10 list-disc">
-                <li><strong className="text-slate-800">Tie-break à 2-2 :</strong> Si le score est de 2 jeux partout, on joue un tie-break à <strong className="text-slate-800">7 points</strong> avec 2 points de différence (maximum 10 points).</li>
+                <li><strong className="text-slate-800">Détermination du service :</strong> On utilise une <strong className="text-slate-800">raquette avec un spin</strong>. Le joueur dont le manche commence à servir commence la partie.</li>
+                <li><strong className="text-slate-800">Ordre de service au tie-break :</strong> Le tie-break commence par un service sur la <strong className="text-slate-800">gauche</strong>, puis l'autre équipe sert <strong className="text-slate-800">2 services en commençant sur la droite</strong>. L'ordre continue en alternant.</li>
+                <li><strong className="text-slate-800">Tie-break à 2-2 :</strong> Si le score est de 2 jeux partout, on joue un tie-break à <strong className="text-slate-800">7 points</strong> avec 2 points de différence (maximum 10 points). À 9-9, l'équipe qui reçoit peut choisir sur quel joueur le service sera effectué.</li>
                 <li><strong className="text-slate-800">Juice (Deuce) :</strong> En cas d'égalité à 40-40, on joue une <strong className="text-slate-800">golden ball</strong> (point décisif).</li>
                 <li><strong className="text-slate-800">Golden Ball :</strong> L'équipe qui reçoit peut choisir sur quel joueur le service sera effectué.</li>
               </ul>
