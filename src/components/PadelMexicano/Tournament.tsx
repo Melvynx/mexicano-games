@@ -1,5 +1,5 @@
 import { ChevronDown, ChevronUp, Pause, Play } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import type { Round } from '../../utils/constants';
 import { TOTAL_ROUNDS } from '../../utils/constants';
 import { getLeaderboard } from '../../utils/mexicano';
@@ -31,6 +31,8 @@ export const Tournament: React.FC<TournamentProps> = ({
   const [isLeaderboardOpen, setIsLeaderboardOpen] = useState(false);
   const [timerSeconds, setTimerSeconds] = useLocalStorage<number>('tournament_timer_seconds', DEFAULT_TIMER_SECONDS);
   const [isTimerRunning, setIsTimerRunning] = useLocalStorage<boolean>('tournament_timer_running', false);
+  const prevTimerSecondsRef = useRef(timerSeconds);
+  const audioContextRef = useRef<AudioContext | null>(null);
 
   const currentRoundIndex = rounds.length - 1;
   const currentRound = rounds[currentRoundIndex];
@@ -89,6 +91,42 @@ export const Tournament: React.FC<TournamentProps> = ({
     : timerSeconds <= 120
       ? 'text-orange-500'
       : 'text-emerald-600';
+
+  const playTimerEndTone = useCallback(() => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    const AudioContextClass = window.AudioContext ?? (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+    if (!AudioContextClass) {
+      return;
+    }
+
+    const audioCtx = audioContextRef.current ?? new AudioContextClass();
+    audioContextRef.current = audioCtx;
+
+    const oscillator = audioCtx.createOscillator();
+    const gainNode = audioCtx.createGain();
+    oscillator.type = 'triangle';
+    oscillator.frequency.setValueAtTime(880, audioCtx.currentTime);
+    gainNode.gain.setValueAtTime(0.001, audioCtx.currentTime);
+    gainNode.gain.linearRampToValueAtTime(0.15, audioCtx.currentTime + 0.05);
+    gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 1);
+    oscillator.connect(gainNode).connect(audioCtx.destination);
+    oscillator.start();
+    oscillator.stop(audioCtx.currentTime + 1);
+  }, []);
+
+  useEffect(() => {
+    if (prevTimerSecondsRef.current > 0 && timerSeconds === 0) {
+      playTimerEndTone();
+    }
+    prevTimerSecondsRef.current = timerSeconds;
+  }, [timerSeconds, playTimerEndTone]);
+
+  useEffect(() => () => {
+    audioContextRef.current?.close();
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 pb-20">
