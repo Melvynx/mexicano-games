@@ -13,13 +13,10 @@ interface ScoreModalProps {
 
 export const ScoreModal: React.FC<ScoreModalProps> = ({ isOpen, match, players, selectedTeam, onClose, onSave }) => {
   const [step, setStep] = useState<'score' | 'opponent-score'>('score');
-  const [firstScore, setFirstScore] = useState<number | null>(null);
 
-  // Reset state when modal opens
   useEffect(() => {
     if (isOpen) {
       setStep('score');
-      setFirstScore(null);
     }
   }, [isOpen, selectedTeam]);
 
@@ -31,8 +28,6 @@ export const ScoreModal: React.FC<ScoreModalProps> = ({ isOpen, match, players, 
 
   const handleFirstScoreSelect = (score: number) => {
     if (score === 3) {
-      // They won, ask for opponent score
-      setFirstScore(3);
       setStep('opponent-score');
     } else {
       // They lost, so opponent got 3
