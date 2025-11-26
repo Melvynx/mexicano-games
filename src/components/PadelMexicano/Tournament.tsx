@@ -271,6 +271,7 @@ export const Tournament: React.FC<TournamentProps> = ({
                   const score = match.score;
                   const isWinner1 = score && score.team1 > score.team2;
                   const isWinner2 = score && score.team2 > score.team1;
+                  const courtLabel = `Court ${mIndex + 1}`;
 
                   return (
                     <div
@@ -281,6 +282,14 @@ export const Tournament: React.FC<TournamentProps> = ({
                           : 'border-white bg-white shadow-lg shadow-slate-200/50'
                       }`}
                     >
+                      <div className="px-5 py-3 flex items-center justify-between text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400 border-b border-slate-100 bg-white/60">
+                        <span className="text-slate-500">{courtLabel}</span>
+                        {score ? (
+                          <span className="text-emerald-500">Terminé</span>
+                        ) : (
+                          <span className="text-slate-300">En cours</span>
+                        )}
+                      </div>
                       <div className="flex flex-col md:flex-row h-full">
                         {/* Team 1 Button */}
                         <button
