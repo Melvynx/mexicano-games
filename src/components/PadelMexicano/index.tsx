@@ -4,7 +4,7 @@ import { Leaderboard } from './Leaderboard';
 import { PlayerSetup } from './PlayerSetup';
 import { Tournament } from './Tournament';
 
-export default function PadelMexicano() {
+export function PadelMexicano() {
   const {
     players,
     rounds,

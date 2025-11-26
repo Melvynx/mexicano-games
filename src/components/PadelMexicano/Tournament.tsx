@@ -4,7 +4,7 @@ import type { Round } from '../../utils/constants';
 import { TOTAL_ROUNDS } from '../../utils/constants';
 import { getLeaderboard } from '../../utils/mexicano';
 import { ScoreModal } from './ScoreModal';
-import useLocalStorage from '../../hooks/useLocalStorage';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
 
 interface TournamentProps {
   players: string[];

@@ -1,7 +1,7 @@
 import type { Round } from '../utils/constants';
 import { STORAGE_KEY, TOTAL_PLAYERS, TOTAL_ROUNDS } from '../utils/constants';
 import { generateRound } from '../utils/mexicano';
-import useLocalStorage from './useLocalStorage';
+import { useLocalStorage } from './useLocalStorage';
 
 type Screen = 'names' | 'tournament' | 'leaderboard' | 'about';
 
