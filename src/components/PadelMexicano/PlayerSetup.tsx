@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker';
 import React, { useState } from 'react';
 import { NameModal } from './NameModal';
 
@@ -12,6 +13,13 @@ export const PlayerSetup: React.FC<PlayerSetupProps> = ({ players, onAddPlayer, 
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
   const isReady = players.every(p => p.trim());
+  const handleRandomNames = () => {
+    players.forEach((name, index) => {
+      if (!name.trim()) {
+        onAddPlayer(index, faker.location.city());
+      }
+    });
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-6">
@@ -61,6 +69,15 @@ export const PlayerSetup: React.FC<PlayerSetupProps> = ({ players, onAddPlayer, 
                 </span>
               </button>
             ))}
+          </div>
+          <div className="mt-6 flex justify-end">
+            <button
+              onClick={handleRandomNames}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-200 text-sm font-semibold text-slate-600 bg-slate-50 hover:bg-slate-100 active:scale-95 transition-all"
+            >
+              Random player name
+              <span role="img" aria-hidden="true">🎲</span>
+            </button>
           </div>
         </div>
 
